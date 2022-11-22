@@ -47,6 +47,34 @@ export class CartService {
     this.computeCartTotals();
   }
 
+  decrementQuantity(theCartItem: CartItem) {
+    var itemIndex = this.cartItems.findIndex(
+      (item) => item.id === theCartItem.id
+    );
+
+    if (itemIndex != -1) {
+      let currentCartItem = this.cartItems[itemIndex];
+      currentCartItem.quantity--;
+      if (currentCartItem.quantity === 0) {
+        this.remove(theCartItem);
+      } else {
+        this.computeCartTotals();
+      }
+    }
+  }
+
+  remove(theCartItem: CartItem) {
+    var itemIndex = this.cartItems.findIndex(
+      (item) => item.id === theCartItem.id
+    );
+
+    if (itemIndex != -1) {
+      this.cartItems.splice(itemIndex, 1);
+
+      this.computeCartTotals();
+    }
+  }
+
   computeCartTotals() {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
